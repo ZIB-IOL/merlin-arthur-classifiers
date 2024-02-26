@@ -22,12 +22,10 @@ Interpretability is key to trust and ethical decision-making in AI, and our proj
   - [Regular Training](#regular-training)
   - [Merlin-Arthur Training](#merlin-arthur-training)
   - [Advanced Features](#advanced-features)
-- [Dataset](#dataset)
+- [Datasets](#datasets)
 - [Models](#models)
 - [Results](#results)
-- [Citing](#citing)
-- [Contributing](#contributing)
-- [Acknowledgments](#acknowledgments)
+- [How to Cite us?](#how-to-cite-us)
 - [Contact](#contact)
 
 ## Getting Started
@@ -246,7 +244,7 @@ These advanced features are designed to empower users to experiment with and opt
 
 For a comprehensive list of all available options and further details on how to configure these features, please refer to the `config_files\arg_parser.py` file within the repository.
 
-## Dataset
+## Datasets
 The MNIST dataset will be downloaded and saved to `.data/MNIST` or `.data/CustomMNIST`. The raw UCI-Dataset will be first downloaded and saved to `.data/adult.data` for training and `.data/adult.test` for testing, correspondingly. The dataset will then be preprocessed and saved to `.data/sex_target_encoded_data_train.pkl` and `.data/sex_target_encoded_data_test.pkl` if `sex` is the target feature. If you want to skip the preprocessing steps, you can set `read_pre_processed=False` in the data preparation located in `merlin_arthur_framework.py` 
 
 
@@ -275,7 +273,7 @@ The lower bound and precision of the pretrained Merlin-Arthur-Framework can be c
 ## Results (TODO: Include)
 Summarize the key findings from your experiments, including tables or graphs if possible.
 
-## Citing
+## How to cite us?
 ```bibtex
 @InProceedings{waldchen2023formal,
   title={Interpretability Guarantees with Merlin-Arthur Classifiers},
