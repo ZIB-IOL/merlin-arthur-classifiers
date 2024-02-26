@@ -7,13 +7,11 @@ Authors: [Stephan Wäldchen](https://stephanw.net/), [Kartikey Sharma](https://k
 </div>
 
 
-This repository is dedicated to the implementation of the Merlin-Arthur Classifiers, a multi-agent interactive classifier framework aimed at enhancing interpretability in machine learning models. The work is detailed in our paper [*Interpretabilty Guarantees with Merlin-Arthur Classifiers*](https://arxiv.org/abs/2206.00759) presented at AISTATS 2024, which introduces a novel approach to interpretability guarantees, inspired by the Merlin-Arthur protocol from Interactive Proof Systems.
+This repository hosts the implementation of the Merlin-Arthur Classifiers, a multi-agent interactive classifier framework aimed at enhancing interpretability in machine learning models. The work is detailed in our paper [*Interpretabilty Guarantees with Merlin-Arthur Classifiers*](https://arxiv.org/abs/2206.00759), presented at AISTATS 2024, which introduces a novel approach to interpretability guarantees, inspired by the Merlin-Arthur protocol from Interactive Proof Systems.
 
-The framework is demonstrated using two datasets: the MNIST and the UCI Census dataset, with a setup that includes a verifier (Arthur) and two provers (Merlin and Morgana). These roles are performed by various algorithms, including U-Nets, Stochastic Frank-Wolfe (SFW) optimizers, or brute force search methods, which participate in a min-max game aimed at refining the classification process.
-
+The framework is demonstrated on two datasets: the MNIST and the UCI Census dataset, with a setup that includes a verifier (Arthur) and two provers (a cooperative Merlin and an adversarial Morgana). These roles are performed by various algorithms, including U-Nets, Stochastic Frank-Wolfe (SFW) algorithms, and hybrid approaches, which participate in a min-max game aimed at refining the classification process.
 
 Interpretability is key to trust and ethical decision-making in AI, and our project aims to contribute in this domain. This repository offers the tools, instructions, and insights necessary for engaging with our approach, replicating our experiments, and potentially extending the methodology to new contexts. We welcome contributions, feedback, and collaborative efforts from the community to further this goal.
-
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -61,30 +59,77 @@ This will require you to enter your API key, which you can find in your wandb da
 
 ## Basic Usage
 
-This section outlines how to use the Merlin-Arthur Classifiers framework to replicate our results or apply the classifier to new data. The repository supports several training methods and datasets. Choose the approach and dataset relevant to your needs. 
-Available training approaches are: `regular`, `sfw`, `mask_optimization`, and `unet`. Specify the desired approach through the command line argument when executing the training script `main.py`.
+This section outlines how to use the Merlin-Arthur Classifiers framework. The repository supports several training methods and datasets. Choose the approach and dataset relevant to your needs. Available training approaches are: `regular`, `sfw`, `mask_optimization`, and `unet`. Specify the desired approach through the command line argument when executing the training script `main.py`.
+
+Debug mode can be activated using the command line argument `--debug` together with the other command line arguments. This executes the code running on two batches instead of the entire dataset. In the following examples, we always include the flag, i.e., activate the `debug mode`.  To save the checkpoint of the best model, you can add the `--save_model` flag. Be sure to change the save path to successfully save the checkpoint.
+
+To explore additional configurations, please have a look on the `config_files\arg_parser.py` file or run the following command in the shell:
+```bash
+python main.py --help
+```
+
+
 
 ### Regular Training 
-Regular training can be conducted on two datasets: MNIST and UCI Census. Below are basic commands for each. To explore additional configurations, please have a look on the `config_files\arg_parser.py` file.
+Regular training can be conducted on two datasets: `MNIST` and `UCI Census`. You can customize the command line arguments to fit your specific training needs. Below is a template that outlines various customization options for your training setup, adjusted to the context of regular training on the MNIST and UCI Census datasets.
 
-Debug mode can be activated using the command line argument `--debug` together with the other command line arguments. This executes the code running on two batches instead of the entire dataset. In the following examples, we show how to execute the code in the `debug mode`.
+**Customization Options:**
 
-To save the checkpoint of the best model, you can add the `--save_model` flag. Be sure to change the save path to successfully save the checkpoint.
+- **Training Approach:** Specify with --approach, where "regular" is used for standard training.
+- **Dataset Selection:** Choose between MNIST and UCI Census with the --dataset flag.
+- **Epochs:** Configure the number of training epochs with --epochs.
+- **Batch Size:** Adjust the training batch size with --batch_size.
+- **Learning Rate:** Set the learning rate with --lr.
+-  **Model Architecture:** Specify the model with --model_arthur, e.g., "SimpleCNN" for MNIST or "UCICensusClassifier" for UCI Census.
+- **Normalization:** Enable feature normalization with --add_normalization.
 
-#### MNIST Dataset (`debug mode`)
 
-To perform regular training on the `MNIST` dataset :
+<table>
+<tr>
+<td>
+
+#### MNIST Dataset
+
+To perform regular training on the `MNIST` dataset:
 
 ```bash
-python main.py --debug --seed 42 --approach regular --use_amp --dataset MNIST --epochs 10 --batch_size 512 --binary_classification --lr 0.001 --model_arthur SimpleCNN --add_normalization --wandb
+python main.py --debug \
+    --seed 42 \
+    --approach "regular" \
+    --use_amp \
+    --dataset "MNIST" \
+    --epochs 10 \
+    --batch_size 512 \
+    --binary_classification \
+    --lr 0.001 \
+    --model_arthur "SimpleCNN" \
+    --add_normalization \
+    --wandb
 ```
-#### UCI Census Dataset (`debug mode`)
+</td>
+<td>
+
+#### UCI Census Dataset
 
 For the UCI Census dataset, we need to change the `--dataset` and `--model_arthur` flags:
-
 ```bash
-python main.py --debug --seed 42 --approach regular --use_amp --dataset UCI-Census --epochs 10 --batch_size 512 --binary_classification --lr 0.001 --model_arthur UCICensusClassifier --add_normalization --wandb
+python main.py --debug \
+    --seed 42 \
+    --approach "regular" \
+    --use_amp \
+    --dataset "UCI-Census" \
+    --epochs 10 \
+    --batch_size 512 \
+    --binary_classification \
+    --lr 0.001 \
+    --model_arthur "UCICensusClassifier" \
+    --add_normalization \
+    --wandb
 ```
+</td>
+</tr>
+</table>
+
 ### Merlin-Arthur Training
 After saving a pre-trained Arthur classifier locally, the next step is to go through the Merlin-Arthur training process. In this phase, Merlin and Morgana are introduced to a strategic min-max game to refine and improve the interpretability of the classification process.
 
@@ -97,23 +142,88 @@ To initiate Merlin-Arthur training, specify the approach, dataset, and other rel
 - **Model Configuration:** Adjust `--mask_size`, `--lr`, `--gamma`, `lr_merlin` , `lr_morgana` and other parameters to fine-tune the training process.
 - **Checkpoint Loading**: Adjust `--pretrained_path` to load the checkpoint of the pretrained Arthur.
 
+<table>
+<tr>
+<td>
 
-##### MNIST Dataset with U-Net Approach (`debug mode`)
-For training using the U-Net approach on the MNIST dataset:
+##### Merlin-Arthur Framework on MNIST Dataset with U-Net Approach 
+For training using the **U-Net approach** on MNIST:
 
 ```bash
-python main.py --debug --seed 42 --approach unet --segmentation_method topk --use_amp --dataset MNIST --epochs 15 --batch_size 512 --binary_classification --mask_size 64 --lr 0.001 --gamma 2 --model_arthur SimpleCNN --pretrained_arthur --pretrained_path YOUR_MODEL_PATH --add_normalization --wandb --lr_morgana 0.001 --lr_merlin 0.001
+python main.py --debug \
+    --seed 42 \
+    --approach "unet" \
+    --segmentation_method "topk" \
+    --use_amp \
+    --dataset "MNIST" \
+    --epochs 15 \
+    --batch_size 512 \
+    --binary_classification \
+    --mask_size 64 \
+    --lr 0.0001 \
+    --gamma 2 \
+    --model_arthur "SimpleCNN" \
+    --pretrained_arthur \
+    --pretrained_path "YOUR_PATH" \
+    --add_normalization \
+    --wandb \
+    --lr_morgana 0.001 \
+    --lr_merlin 0.001
+```
+</td>
+<td>
+
+##### Merlin-Arthur Framework on MNIST Dataset with Stochastic Frank-Wolfe Approach 
+To use the **SFW approach** for MNIST:
+
+```bash
+python main.py --debug \
+    --seed 42 \
+    --approach "sfw" \
+    --segmentation_method "topk" \
+    --use_amp \
+    --dataset "MNIST" \
+    --epochs 15 \
+    --batch_size 512 \
+    --binary_classification \
+    --mask_size 32 \
+    --lr 0.0001 \
+    --gamma 2 \
+    --model_arthur "SimpleCNN" \
+    --pretrained_arthur \
+    --pretrained_path "YOUR_PATH" \
+    --add_normalization \
+    --wandb \
+    --lr_morgana 0.01 \
+    --lr_merlin 0.01
 ```
 
-##### MNIST Dataset with Stochastic Frank-Wolfe Approach (`debug mode`)
-To use the SFW approach for the MNIST dataset:
+</td>
+</tr>
+</table>
+
+##### Merlin-Arthur Framework on UCI Census Dataset with SFW Approach
+For applying the Merlin-Arthur Training with the **SFW approach** on the UCI Census dataset:
 ```bash
-python main.py --debug --seed 42 --approach sfw --segmentation_method topk --use_amp --dataset MNIST --epochs 15 --batch_size 512 --binary_classification --mask_size 32 --lr 0.01 --gamma 2 --model_arthur SimpleCNN --pretrained_arthur --pretrained_path YOUR_MODEL_PATH --add_normalization --wandb --lr_morgana 0.01 --lr_merlin 0.01
-```
-##### UCI Census Dataset with SFW Approach (`debug mode`)
-For applying the Merlin-Arthur Training with the SFW approach on the UCI Census dataset:
-```bash
-python main.py --debug --seed 42 --approach sfw --segmentation_method topk --use_amp --dataset UCI-Census --epochs 2 --batch_size 512 --binary_classification --mask_size 3 --lr 0.01 --gamma 2 --model_arthur UCICensusClassifier --pretrained_arthur --pretrained_path YOUR_MODEL_PATH --add_normalization --wandb --lr_morgana 0.01 --lr_merlin 0.01
+$ python main.py --debug \
+    --seed 42 \
+    --approach "sfw" \
+    --segmentation_method "topk" \
+    --use_amp \
+    --dataset "UCI-Census" \
+    --epochs 2 \
+    --batch_size 512 \
+    --binary_classification \
+    --mask_size 3 \
+    --lr 0.01 \
+    --gamma 2 \
+    --model_arthur "UCICensusClassifier" \
+    --pretrained_arthur \
+    --pretrained_path "YOUR_MODEL_PATH" \
+    --add_normalization \
+    --wandb \
+    --lr_morgana 0.01 \
+    --lr_merlin 0.01
 ```
 ### Advanced Features
 
@@ -145,9 +255,9 @@ In the framework, we offer a diverse array of models, each tailored to accommoda
 
 - `ResNet18`: A modification of the classic ResNet18 model for customizable input channels and class numbers, supporting pre-trained weights for transfer learning.
 
-- `DeeperCNN`: An extended CNN architecture designed for more complex image processing tasks, featuring multiple convolutional and fully connected layers.
-
 - `SimpleCNN`: A straightforward CNN model for basic image classification tasks, with a simple stack of convolutional, pooling, and fully connected layers.
+
+- `DeeperCNN`: An extended CNN architecture for image processing tasks, featuring multiple convolutional and fully connected layers.
 
 - `Net`: A basic neural network with convolutional and pooling layers, tailored for simple image classification problems.
 
@@ -159,11 +269,10 @@ In the framework, we offer a diverse array of models, each tailored to accommoda
 
 These models exemplify the framework's versatility, catering to a wide range of machine learning and computer vision tasks. Users can easily adapt these models for their specific projects or extend them to explore new research directions.
 
-
 ## Entropy
 The lower bound and precision of the pretrained Merlin-Arthur-Framework can be calculated using the `main_entropy.py` script. This loads the saved models of Arthur and Merlin and calculates the corresponding metrics. Note that the flags need to be set accordingly to setup each agent.
 
-## Results (TODO)
+## Results (TODO: Include)
 Summarize the key findings from your experiments, including tables or graphs if possible.
 
 ## Citing
