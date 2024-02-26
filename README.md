@@ -18,7 +18,7 @@ Interpretability is key to trust and ethical decision-making in AI, and our proj
 - [Getting Started](#getting-started)
   - [Setting up the Environment](#setting-up-the-environment)
   - [Initializing `wandb`](#initializing-wandb)
-- [Usage](#usage)
+- [Usage](#basic-usage)
   - [Regular Training](#regular-training)
   - [Merlin-Arthur Training](#merlin-arthur-training)
   - [Advanced Features](#advanced-features)
