@@ -285,8 +285,11 @@ Summarize the key findings from your experiments, including tables or graphs if 
   organization = {PMLR},
 }
 ```
+## Contact
+We warmly invite any questions, suggestions, or collaboration proposals. Please feel free to reach out to us:
 
-## Acknowledgments
-Credit any collaborators, institutions, or funding bodies that supported the work.
-
-
+- [Stephan Wäldchen](https://stephanw.net/)
+- [Kartikey Sharma](https://kartikeyrinwa.github.io/)
+- [Berkant Turan](https://b-turan.github.io/)
+- [Max Zimmer](https://maxzimmer.org/)
+- [Sebastian Pokutta](http://www.pokutta.com/)
