@@ -73,13 +73,13 @@ Regular training can be conducted on two datasets: `MNIST` and `UCI Census`. You
 
 **Customization Options:**
 
-- **Training Approach:** Specify with --approach, where "regular" is used for standard training.
-- **Dataset Selection:** Choose between MNIST and UCI Census with the --dataset flag.
-- **Epochs:** Configure the number of training epochs with --epochs.
-- **Batch Size:** Adjust the training batch size with --batch_size.
-- **Learning Rate:** Set the learning rate with --lr.
--  **Model Architecture:** Specify the model with --model_arthur, e.g., "SimpleCNN" for MNIST or "UCICensusClassifier" for UCI Census.
-- **Normalization:** Enable feature normalization with --add_normalization.
+- **Training Approach:** Specify with `--approach`, where `"regular"` is used for standard training.
+- **Dataset Selection:** Choose between `MNIST` and `UCI-Census` with the `--dataset` flag.
+- **Epochs:** Configure the number of training epochs with `--epochs`.
+- **Batch Size:** Adjust the training batch size with `--batch_size`.
+- **Learning Rate:** Set the learning rate with `--lr`.
+-  **Model Architecture:** Specify the model with `--model_arthur`, e.g., `"SimpleCNN"` for MNIST or `"UCICensusClassifier"` for UCI Census.
+- **Normalization:** Enable feature normalization with `--add_normalization`.
 
 
 <table>
@@ -136,7 +136,7 @@ Merlin-Arthur Training features a collaborative interaction between Merlin and A
 To initiate Merlin-Arthur training, specify the approach, dataset, and other relevant parameters when executing the `main.py` script. Below are examples for different scenarios.
 
 **Customization Options**
-- **Debug Mode:** Activated by adding --debug, running the script on a smaller subset for quicker iterations.
+- **Debug Mode:** Activated by adding `--debug`, running the script on a smaller subset for quicker iterations.
 - **Model Configuration:** Adjust `--mask_size`, `--lr`, `--gamma`, `lr_merlin` , `lr_morgana` and other parameters to fine-tune the training process.
 - **Checkpoint Loading**: Adjust `--pretrained_path` to load the checkpoint of the pretrained Arthur.
 
