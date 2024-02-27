@@ -1,5 +1,6 @@
 # Interpretability Guarantees with Merlin-Arthur Classifiers [AISTATS 2024]
 Authors: [Stephan Wäldchen](https://stephanw.net/), [Kartikey Sharma](https://kartikeyrinwa.github.io/), [Berkant Turan](https://b-turan.github.io/), [Max Zimmer](https://maxzimmer.org/), [Sebastian Pokutta](http://www.pokutta.com/)
+
 :link: [arxiv.org/abs/2206.00759](https://arxiv.org/abs/2206.00759) 
 ## Introduction
 <div align="center">
